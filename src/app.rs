@@ -1,20 +1,25 @@
+use crate::{Player, run_drafter};
+
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
 pub struct TemplateApp {
     // Example stuff:
-    label: String,
+    path: String,
 
-    #[serde(skip)] // This how you opt-out of serialization of a field
-    value: f32,
+    #[serde(skip)]     player_list: Vec<Player>, // This how you opt-out of serialization of a field
+    num_players: usize,
+    num_picks: usize,
 }
 
 impl Default for TemplateApp {
     fn default() -> Self {
         Self {
             // Example stuff:
-            label: "Hello World!".to_owned(),
-            value: 2.7,
+            path: "games/".to_owned(),
+            num_players: 3,
+            num_picks: 3,
+            player_list: Vec::new(),
         }
     }
 }
@@ -67,28 +72,43 @@ impl eframe::App for TemplateApp {
 
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
-            ui.heading("eframe template");
+            ui.heading("Generic Drafter");
 
             ui.horizontal(|ui| {
-                ui.label("Write something: ");
-                ui.text_edit_singleline(&mut self.label);
+                ui.label("File path for options: ");
+                ui.text_edit_singleline(&mut self.path);
             });
 
-            ui.add(egui::Slider::new(&mut self.value, 0.0..=10.0).text("value"));
-            if ui.button("Increment").clicked() {
-                self.value += 1.0;
+            ui.label("Number of players:");
+            ui.add(egui::Slider::new(&mut self.num_players, 0..=10));
+
+            ui.label("Picks per player:");
+            ui.add(egui::Slider::new(&mut self.num_picks, 0..=10));
+
+            if ui.button("Draft!").clicked() {
+                self.player_list = run_drafter(&mut self.path,self.num_players,self.num_picks, true);
             }
 
             ui.separator();
 
-            ui.add(egui::github_link_file!(
-                "https://github.com/emilk/eframe_template/blob/master/",
-                "Source code."
-            ));
+            ui.with_layout(egui::Layout::left_to_right(egui::Align::Min), |ui|{
+
+                for player in &self.player_list {
+                    ui.vertical(|ui|{
+                        ui.label("Player ".to_owned() + player.number.to_string().as_str());
+                        for pick in &player.picks{
+                            ui.label(pick);
+                        }
+                    });
+                }
+            });
 
             ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
                 powered_by_egui_and_eframe(ui);
-                egui::warn_if_debug_build(ui);
+                ui.add(egui::github_link_file!(
+                    "https://github.com/LokeSGJ/GenericDrafter/blob/master/src/app.rs",
+                    "Source code."
+                ));
             });
         });
     }
