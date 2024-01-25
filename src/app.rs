@@ -10,6 +10,7 @@ pub struct TemplateApp {
     #[serde(skip)]     player_list: Vec<Player>, // This how you opt-out of serialization of a field
     num_players: usize,
     num_picks: usize,
+    unique_picks: bool,
 }
 
 impl Default for TemplateApp {
@@ -20,6 +21,7 @@ impl Default for TemplateApp {
             num_players: 3,
             num_picks: 3,
             player_list: Vec::new(),
+            unique_picks: true,
         }
     }
 }
@@ -80,13 +82,16 @@ impl eframe::App for TemplateApp {
             });
 
             ui.label("Number of players:");
-            ui.add(egui::Slider::new(&mut self.num_players, 0..=10));
+            ui.add(egui::Slider::new(&mut self.num_players, 1..=10));
 
             ui.label("Picks per player:");
-            ui.add(egui::Slider::new(&mut self.num_picks, 0..=10));
+            ui.add(egui::Slider::new(&mut self.num_picks, 1..=10));
+
+            //TODO: add a checkbox for unique picks
+            ui.add(egui::Checkbox::new(&mut self.unique_picks, "Disallow duplicates"));
 
             if ui.button("Draft!").clicked() {
-                self.player_list = run_drafter(&mut self.path,self.num_players,self.num_picks, true);
+                self.player_list = run_drafter(&mut self.path,self.num_players,self.num_picks, self.unique_picks);
             }
 
             ui.separator();
@@ -106,7 +111,7 @@ impl eframe::App for TemplateApp {
             ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
                 powered_by_egui_and_eframe(ui);
                 ui.add(egui::github_link_file!(
-                    "https://github.com/LokeSGJ/GenericDrafter/blob/master/src/app.rs",
+                    "https://github.com/LokeSGJ/GenericDrafter/tree/master/",
                     "Source code."
                 ));
             });

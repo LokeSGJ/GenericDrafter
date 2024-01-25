@@ -7,14 +7,10 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bf59c39f-640d-4869-83f4-4225cb9e93ab" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/endlesslegend.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/warhammer.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
+    <list default="true" id="bf59c39f-640d-4869-83f4-4225cb9e93ab" name="Changes" comment="working GUI">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,11 +89,25 @@
       <workItem from="1706042036563" duration="67000" />
       <workItem from="1706042107306" duration="9167000" />
       <workItem from="1706095756872" duration="739000" />
-      <workItem from="1706096504028" duration="5774000" />
+      <workItem from="1706096504028" duration="7026000" />
+      <workItem from="1706104303906" duration="9118000" />
     </task>
+    <task id="LOCAL-00001" summary="working GUI">
+      <option name="closed" value="true" />
+      <created>1706102844668</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1706102844668</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="working GUI" />
+    <option name="LAST_COMMIT_MESSAGE" value="working GUI" />
   </component>
 </project>

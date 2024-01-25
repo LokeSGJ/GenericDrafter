@@ -12,6 +12,8 @@ struct Player {
     picks: Vec<String>,
 }
 
+//TODO: read_file panics if the file path is bad
+//TODO: generate_picks panics if unique_picks is true and file contains fewer options than num_players * num_picks
 fn run_drafter(path: &mut String, num_players: usize, num_picks: usize, unique_picks: bool) -> Vec<Player> {
     let mut options: Vec<String> = Vec::new();
     read_file(path, &mut options).expect("Failed to read file");
@@ -29,15 +31,36 @@ fn generate_picks (num_players: &usize, num_picks: &usize, mut options: Vec<Stri
     let mut rng = rand::thread_rng();
     let mut pick_list: Vec<String> = Vec::new();
 
-    for _i in 0..num_players*num_picks {
-        let index: usize = rng.gen_range(0..options.len());
-        let pick: String = options[index].to_string();
+    if unique_picks {
+        for _i in 0..num_players * num_picks {
+            let index: usize = rng.gen_range(0..options.len());
+            let pick: String = options[index].to_string();
 
-        if unique_picks {
             options.remove(index);
-        }
 
-        pick_list.push(pick);
+            pick_list.push(pick);
+        }
+    }
+    else if !unique_picks { //I'd like to officially apologize for this part
+        for _i in 0..*num_players {
+            let mut picks: Vec<String> = Vec::new();
+
+            for _i in 0..*num_picks {
+                let index: usize = rng.gen_range(0..options.len());
+                let mut pick: String = options[index].to_string();
+
+                while picks.contains(&pick) {
+                    let index: usize = rng.gen_range(0..options.len());
+                    pick = options[index].to_string();
+                }
+
+                picks.push(pick);
+            }
+
+            for i in 0..*num_picks {
+                pick_list.push(picks[i].as_str().to_string());
+            }
+        }
     }
 
     return pick_list;
@@ -61,6 +84,7 @@ fn generate_players (num_players: usize, num_picks: &usize, pick_list: Vec<Strin
     return player_list;
 }
 
+//print_draft was useful for early testing but doesn't actually serve a purpose anymore
 fn print_draft (player_list: Vec<Player>, num_picks: usize) {
     for i in player_list {
         println!("Player {} chooses between:\n", i.number);
