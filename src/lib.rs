@@ -16,11 +16,11 @@ struct Player {
 //TODO: generate_picks panics if unique_picks is true and file contains fewer options than num_players * num_picks
 fn run_drafter(path: &mut String, num_players: usize, num_picks: usize, unique_picks: bool) -> Vec<Player> {
     let mut options: Vec<String> = Vec::new();
-    read_file(path, &mut options).expect("Failed to read file");
+    read_file(path, &mut options).expect("Should only fail if the file path is invalid.");
 
     let pick_list : Vec<String> = generate_picks(&num_players, &num_picks, options, unique_picks);
 
-    let player_list : Vec<Player> = generate_players(num_players, &num_picks, pick_list);
+    let player_list : Vec<Player> = generate_players(&num_players, &num_picks, pick_list);
 
     //print_draft(player_list, num_picks);
 
@@ -41,24 +41,17 @@ fn generate_picks (num_players: &usize, num_picks: &usize, mut options: Vec<Stri
             pick_list.push(pick);
         }
     }
-    else if !unique_picks { //I'd like to officially apologize for this part
+    else if !unique_picks {
         for _i in 0..*num_players {
-            let mut picks: Vec<String> = Vec::new();
+            let mut options_clone: Vec<String> = options.clone();
 
             for _i in 0..*num_picks {
-                let index: usize = rng.gen_range(0..options.len());
-                let mut pick: String = options[index].to_string();
+                let index: usize = rng.gen_range(0..options_clone.len());
+                let pick: String = options_clone[index].to_string();
 
-                while picks.contains(&pick) {
-                    let index: usize = rng.gen_range(0..options.len());
-                    pick = options[index].to_string();
-                }
+                options_clone.remove(index);
 
-                picks.push(pick);
-            }
-
-            for i in 0..*num_picks {
-                pick_list.push(picks[i].as_str().to_string());
+                pick_list.push(pick);
             }
         }
     }
@@ -66,9 +59,9 @@ fn generate_picks (num_players: &usize, num_picks: &usize, mut options: Vec<Stri
     return pick_list;
 }
 
-fn generate_players (num_players: usize, num_picks: &usize, pick_list: Vec<String>) -> Vec<Player> {
+fn generate_players (num_players: &usize, num_picks: &usize, pick_list: Vec<String>) -> Vec<Player> {
     let mut player_list: Vec<Player> = Vec::new();
-    for i in 0..num_players {
+    for i in 0..*num_players {
         let mut picks: Vec<String> = Vec::new();
         for j in 0..*num_picks{
             let pick: &String = &pick_list[i*num_picks+j];
