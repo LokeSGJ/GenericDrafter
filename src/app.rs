@@ -16,7 +16,6 @@ pub struct TemplateApp {
 impl Default for TemplateApp {
     fn default() -> Self {
         Self {
-            // Example stuff:
             path: "games/".to_owned(),
             num_players: 3,
             num_picks: 3,
@@ -87,11 +86,10 @@ impl eframe::App for TemplateApp {
             ui.label("Picks per player:");
             ui.add(egui::Slider::new(&mut self.num_picks, 1..=10));
 
-            //TODO: add a checkbox for unique picks
             ui.add(egui::Checkbox::new(&mut self.unique_picks, "Disallow duplicates"));
 
             if ui.button("Draft!").clicked() {
-                self.player_list = run_drafter(&mut self.path,self.num_players,self.num_picks, self.unique_picks);
+                self.player_list = run_drafter(&mut self.path, self.num_players, self.num_picks, self.unique_picks).unwrap_or_else(|e| Vec::new())
             }
 
             ui.separator();

@@ -1,11 +1,12 @@
 #![warn(clippy::all, rust_2018_idioms)]
 
 mod app;
+use std::io::ErrorKind;
 pub use app::TemplateApp;
 
 use rand::Rng;
 use std::fs::File;
-use std::io::{BufReader, BufRead};
+use std::io::{BufReader, BufRead, Error};
 
 struct Player {
     number: usize,
@@ -14,17 +15,22 @@ struct Player {
 
 //TODO: read_file panics if the file path is bad
 //TODO: generate_picks panics if unique_picks is true and file contains fewer options than num_players * num_picks
-fn run_drafter(path: &mut String, num_players: usize, num_picks: usize, unique_picks: bool) -> Vec<Player> {
+fn run_drafter(path: &mut String, num_players: usize, num_picks: usize, unique_picks: bool) -> Result<Vec<Player>, Error> {
     let mut options: Vec<String> = Vec::new();
-    read_file(path, &mut options).expect("Should only fail if the file path is invalid.");
+    read_file(path, &mut options)?;
+
+    if unique_picks {
+        if options.len() < num_players * num_picks {
+            let custom_error = Error::new(ErrorKind::Other, "Not enough options.");
+            return Err(custom_error)
+        }
+    }
 
     let pick_list : Vec<String> = generate_picks(&num_players, &num_picks, options, unique_picks);
 
     let player_list : Vec<Player> = generate_players(&num_players, &num_picks, pick_list);
 
-    //print_draft(player_list, num_picks);
-
-    return player_list;
+    Ok(player_list)
 }
 
 fn generate_picks (num_players: &usize, num_picks: &usize, mut options: Vec<String>, unique_picks: bool) -> Vec<String> {
