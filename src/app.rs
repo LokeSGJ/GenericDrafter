@@ -11,6 +11,7 @@ pub struct TemplateApp {
     num_players: usize,
     num_picks: usize,
     unique_picks: bool,
+    error_message: String,
 }
 
 impl Default for TemplateApp {
@@ -21,6 +22,7 @@ impl Default for TemplateApp {
             num_picks: 3,
             player_list: Vec::new(),
             unique_picks: true,
+            error_message: String::new(),
         }
     }
 }
@@ -89,10 +91,16 @@ impl eframe::App for TemplateApp {
             ui.add(egui::Checkbox::new(&mut self.unique_picks, "Disallow duplicates"));
 
             if ui.button("Draft!").clicked() {
-                self.player_list = run_drafter(&mut self.path, self.num_players, self.num_picks, self.unique_picks).unwrap_or_else(|e| Vec::new())
+                self.error_message = String::new();
+                match run_drafter(&mut self.path, self.num_players, self.num_picks, self.unique_picks) {
+                    Ok(pl) => self.player_list = pl,
+                    Err(e) => self.error_message = e.to_string(),
+                }
             }
 
             ui.separator();
+
+            ui.label(&self.error_message);
 
             ui.with_layout(egui::Layout::left_to_right(egui::Align::Min), |ui|{
 

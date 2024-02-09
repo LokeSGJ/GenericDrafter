@@ -7,10 +7,9 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bf59c39f-640d-4869-83f4-4225cb9e93ab" name="Changes" comment="simplified the !unique_picks part of generate_picks">
+    <list default="true" id="bf59c39f-640d-4869-83f4-4225cb9e93ab" name="Changes" comment="Crashes fixed but no error messages">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +98,7 @@
       <workItem from="1707429179712" duration="8000" />
       <workItem from="1707431862205" duration="787000" />
       <workItem from="1707469600844" duration="1082000" />
-      <workItem from="1707489872487" duration="9036000" />
+      <workItem from="1707489872487" duration="11135000" />
     </task>
     <task id="LOCAL-00001" summary="working GUI">
       <option name="closed" value="true" />
@@ -133,7 +132,15 @@
       <option name="project" value="LOCAL" />
       <updated>1707398690974</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Crashes fixed but no error messages">
+      <option name="closed" value="true" />
+      <created>1707499074704</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1707499074704</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -155,6 +162,7 @@
     <MESSAGE value="unique picks checkbox implemented" />
     <MESSAGE value="refactoring" />
     <MESSAGE value="simplified the !unique_picks part of generate_picks" />
-    <option name="LAST_COMMIT_MESSAGE" value="simplified the !unique_picks part of generate_picks" />
+    <MESSAGE value="Crashes fixed but no error messages" />
+    <option name="LAST_COMMIT_MESSAGE" value="Crashes fixed but no error messages" />
   </component>
 </project>
